@@ -1,5 +1,13 @@
--- IMPORTS
 
+{- __________           .___               ________          __ ___________.__.__                 
+\______   \ ____   __| _/______  ____   \______ \   _____/  |\_   _____/|__|  |   ____   ______
+ |     ___// __ \ / __ |\_  __ \/  _ \   |    |  \ /  _ \   __\    __)  |  |  | _/ __ \ /  ___/
+ |    |   \  ___// /_/ | |  | \(  <_> )  |    `   (  <_> )  | |     \   |  |  |_\  ___/ \___ \ 
+ |____|    \___  >____ | |__|   \____/  /_______  /\____/|__| \___  /   |__|____/\___  >____  >
+               \/     \/                        \/                \/                 \/     \/ 
+ -}
+
+-- IMPORTS
 import XMonad
 import Data.Monoid
 import System.Exit
@@ -11,9 +19,7 @@ import XMonad.Layout.Spacing
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 
--- The preferred terminal program, which is used in a binding below and by
--- certain contrib modules.
---
+
 myTerminal      = "alacritty"
 
 -- Whether focus follows the mouse pointer.
@@ -35,19 +41,16 @@ myBorderWidth   = 2
 --
 myModMask       = mod4Mask
 
--- The default number of workspaces (virtual screens) and their names.
--- By default we use numeric strings, but any string may be used as a
--- workspace name. The number of workspaces is determined by the length
+-- The number of workspaces is determined by the length
 -- of this list.
 --
 -- A tagging example:
 --
 -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
 --
-myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
+myWorkspaces    = ["Main","Web","Music","4","5","6","7","8","9"]
 
--- Border colors for unfocused and focused windows, respectively.
---
+
 myNormalBorderColor  = "#dddddd"
 myFocusedBorderColor = "#ba8cd7"
 
@@ -170,13 +173,12 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 ------------------------------------------------------------------------
 -- Layouts:
 
--- You can specify and transform your layouts by modifying these values.
+
 -- If you change layout bindings be sure to use 'mod-shift-space' after
--- restarting (with 'mod-q') to reset your layout state to the new
--- defaults, as xmonad preserves your old layout settings by default.
 --
--- The available layouts.  Note that each layout is separated by |||,
+-- Note that each layout is separated by |||,
 -- which denotes layout choice.
+-- spacingRaw sets spacing and avoidStruts keeps xmobar visible even when a program is open
 --
 myLayout = spacingRaw True (Border 0 10 10 10) True (Border 10 10 10 10) True $ avoidStruts (tiled ||| Mirror tiled ||| Full)
   where
@@ -236,20 +238,14 @@ myLogHook = return ()
 -- Startup hook
 
 -- Perform an arbitrary action each time xmonad starts or is restarted
--- with mod-q.  Used by, e.g., XMonad.Layout.PerWorkspace to initialize
--- per-workspace layout choices.
---
--- By default, do nothing.
+
 myStartupHook = do 
   spawnOnce "nitrogen --restore &"
   spawnOnce "picom &"
   spawnOnce "unclutter &"
 
 ------------------------------------------------------------------------
--- Now run xmonad with all the defaults we set up.
 
--- Run xmonad with the settings you specify. No need to modify this.
---
 main = do
   xmproc <- spawnPipe "xmobar -x 0 /home/pedrocoding/.config/xmobar/xmobarrc.hs"
   xmonad $ docks defaults
